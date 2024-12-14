@@ -13,11 +13,14 @@ def get_data():
 
 @app.get("/users")
 def users(inner_data = get_data()):
-    return inner_data["users"]
+    return inner_data["users"], 200
 
 @app.get("/users/<id>")
 def get_user_via_id(id, inner_data = get_data()):
-    return next(filter(lambda user: user["id"] == int(id), inner_data["users"]))
+    try:
+        return  next(filter(lambda user: user["id"] == int(id), inner_data["users"])), 200  
+    except StopIteration:
+        return StopIteration, 500
 
 @app.post("/users")
 def post_user( inner_data = get_data()):
