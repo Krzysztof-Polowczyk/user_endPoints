@@ -12,30 +12,31 @@ def users():
     return data["users"]
 
 @app.get("/users/<id>")
-def addUser(id):
-    return data["users"]
+def get_user_via_id(id):
+    return next(filter(lambda user: user["id"] == int(id), data["users"]))
 
 @app.post("/users")
 def post_user():
-    request.json["id"] = len(data)+1
-    data.append(request.json)
+    data["leatest_id"] += 1
+    request.json["id"] = data["leatest_id"]
+    data["users"].append(request.json)
     return Response(status=200)
 
 @app.patch("/users/<id>")
 def patch_user(id):
-    data[int(id)-1][next(iter(request.json))] = request.json[next(iter(request.json))]
+    data["users"][next(filter(lambda user: user[1]["id"] == int(id) ,enumerate(data["users"])))[0]][next(iter(request.json))] = request.json[next(iter(request.json))]
 
     return Response(status=200)
 
 @app.put("/users/<id>")
 def put_user(id):
     request.json["id"] = id
-    data[id-1] = request.json
+    data["users"][next(filter(lambda user: user[1]["id"] == int(id) ,enumerate(data["users"])))[0]] = request.json
     return Response(status=200)
 
 @app.delete("/users/<id>")
 def delate_user(id):
-    
+    del data["users"][next(filter(lambda user: user[1]["id"] == int(id) ,enumerate(data["users"])))[0]]
     return Response(status=200)
 
 
