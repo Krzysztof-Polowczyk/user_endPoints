@@ -13,10 +13,3 @@ def test_is_users_returning_users(date_testing):
         {"id": 1, "name": "Wojciech", "lastname": "Oczkowski"},
         {"id": 2, "name": "krzys", "lastname": "polo"}
     ]
-
-from app import app
-import pytest
-
-@pytest.fixture
-def client():
-    return app.test_client()
