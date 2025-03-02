@@ -13,6 +13,7 @@ def test_user_get(client):
 
 def test_user_get_via_id(client):
     assert  200 == client.get("/users/1").status_code
+    
 def test_user_post(client):
     assert  201 == client.post("/users", json={"name": "jan", "lastname": "kowalski"}).status_code
 
